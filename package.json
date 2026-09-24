@@ -1,0 +1,16 @@
+{
+  "name": "easyfood-recriado",
+  "version": "1.0.0",
+  "description": "API e interface web EasyFood com Express e persistência JSON",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "keywords": ["easyfood", "express", "api-rest"],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
