@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "name": "Hamrbuguer da vila",
+    "description": "hamburguer, queijo, bacon, maionese",
+    "category": "lanches",
+    "price": 35.9,
+    "restaurantId": 1,
+    "image": "/uploads/dishes/c7894c9e-d5a9-44bb-b523-4e2c69310598.jpg",
+    "userId": 1,
+    "createdAt": "2026-11-12T14:53:04.369Z"
+  },
+  {
+    "id": 2,
+    "name": "Hamrbuguer de Santos",
+    "description": "queijo, bacon, maionese, hamburguer, farofa de bacon",
+    "category": "Lanches",
+    "price": 55.96,
+    "restaurantId": 1,
+    "image": null,
+    "userId": 1,
+    "createdAt": "2026-11-12T15:00:30.395Z"
+  },
+  {
+    "id": 3,
+    "name": "Sushi",
+    "description": "Temaki",
+    "category": "Sushi",
+    "price": 35.9,
+    "restaurantId": 7,
+    "image": "/uploads/dishes/3a4d24be-b39a-48c1-8f07-258d23a6c4f0.webp",
+    "userId": 1,
+    "createdAt": "2026-11-12T15:01:30.110Z"
+  },
+  {
+    "id": 4,
+    "name": "Portuguesa",
+    "description": "Pizza De Portuguesa",
+    "category": "Pizza",
+    "price": 55.9,
+    "restaurantId": 2,
+    "image": "/uploads/dishes/7c7f2516-08c2-42e0-8de4-af30cb2e8fed.jpg",
+    "userId": 1,
+    "createdAt": "2026-11-12T15:02:18.431Z"
+  }
+]

@@ -1,36 +1,39 @@
-# EasyFood Novo
+# EasyFood Mobile — versão integrada
 
-Projeto full stack simples para cadastro e consulta de restaurantes, com interface inspirada no modelo fornecido.
-
-## Tecnologias
-- Node.js
-- Express
-- HTML, CSS e JavaScript
-- Persistência local em JSON
+Esta versão preserva a interface mobile original do EasyFood (layout de celular, cabeçalho, busca, categorias, cards, favoritos e navegação inferior) e integra as funcionalidades solicitadas.
 
 ## Funcionalidades
-- Listagem de restaurantes
-- Busca por nome
-- Filtro por categoria
-- Ordenação por avaliação
-- Paginação visual com "Carregar mais"
-- Favoritos salvos no navegador
-- Cadastro de restaurantes
-- API REST com GET, POST, PUT e DELETE
-- Persistência dos cadastros em `data/restaurants.json`
+- Cadastro e login com senha protegida por bcryptjs e autenticação JWT.
+- Perfil do usuário autenticado e upload de avatar.
+- Listagem, busca, filtro, favoritos e cadastro de restaurantes.
+- Clique em um card de restaurante para abrir seu cardápio.
+- Cadastro de pratos dentro do restaurante selecionado.
+- Upload opcional de imagem JPG, PNG ou WEBP para cada prato (máximo 5 MB).
+- Dados persistidos em arquivos JSON.
 
-## Como executar
-1. Instale o Node.js LTS.
-2. Abra a pasta no VS Code.
-3. Abra o terminal integrado.
-4. Execute `npm install`.
-5. Execute `npm start`.
-6. Abra `http://localhost:3000`.
+## Executar
+Requer Node.js 18 ou superior.
 
-## Endpoints
-- `GET /health`
-- `GET /restaurants`
-- `GET /restaurants/:id`
-- `POST /restaurants`
-- `PUT /restaurants/:id`
-- `DELETE /restaurants/:id`
+```bash
+npm install
+npm run dev
+```
+
+Acesse http://localhost:3000.
+
+## Demonstração
+1. Abra **Perfil** ou toque no avatar e crie uma conta.
+2. Faça login.
+3. Use o botão **+** na navegação inferior para cadastrar restaurante.
+4. Toque no card de um restaurante para abrir o cardápio.
+5. Toque em **Adicionar prato**, preencha os dados e selecione uma imagem.
+6. Abra **Perfil** e envie uma foto de perfil.
+
+## Persistência
+- `data/restaurants.json`: restaurantes.
+- `data/users.json`: usuários e hashes de senha.
+- `data/dishes.json`: pratos associados ao restaurante e ao usuário.
+- `uploads/profiles`: fotos de perfil.
+- `uploads/dishes`: fotos dos pratos.
+
+A chave JWT padrão é apenas para desenvolvimento local. Configure `JWT_SECRET` com uma chave forte antes de qualquer implantação. Esta versão utiliza armazenamento local JSON e é destinada a demonstração acadêmica, não a produção multiusuário.

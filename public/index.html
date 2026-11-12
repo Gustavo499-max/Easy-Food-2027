@@ -29,14 +29,35 @@
     .modal-wrap{display:none;position:absolute;inset:0;background:#11182780;z-index:10;align-items:flex-end}.modal-wrap.open{display:flex}.modal{width:100%;background:#fff;border-radius:26px 26px 0 0;padding:18px 18px 24px;animation:slide .25s ease}.handle{width:42px;height:4px;background:#ddd;border-radius:9px;margin:0 auto 15px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.modal-head h2{font-size:18px}.close{background:#f3f4f6;width:32px;height:32px;border-radius:10px;cursor:pointer}.field{margin:10px 0}.field label{display:block;font-size:11px;font-weight:800;margin-bottom:5px}.field input,.field select{width:100%;height:43px;border:1px solid #e3e6ea;background:#f8f9fb;border-radius:12px;padding:0 12px;outline:none}.save{width:100%;height:45px;border-radius:13px;background:var(--orange);color:#fff;font-weight:800;margin-top:8px;cursor:pointer}.message{font-size:11px;text-align:center;margin-top:10px;min-height:15px}.message.ok{color:var(--green)}.message.bad{color:#c43d3d}
     @keyframes spin{to{transform:rotate(360deg)}}@keyframes up{from{opacity:0;transform:translateY(7px)}}@keyframes slide{from{transform:translateY(100%)}}
     @media(max-width:430px){body{padding:0;background:#fff}.phone{width:100%;height:100vh;border:0;border-radius:0}}
+
+    .avatar{cursor:pointer;border:0}
+    .restaurant{cursor:pointer}
+    .restaurant:active{transform:scale(.99)}
+    .modal-wrap{overflow:auto}
+    .modal{max-height:88%;overflow:auto}
+    .field textarea{width:100%;min-height:68px;border:1px solid #e3e6ea;background:#f8f9fb;border-radius:12px;padding:11px 12px;outline:none;resize:vertical}
+    .field input[type=file]{height:auto;padding:10px;background:#fff}
+    .secondary-action{width:100%;height:42px;border-radius:12px;background:#fff1eb;color:var(--orange);font-weight:800;margin-top:9px;cursor:pointer}
+    .detail-cover{background:linear-gradient(145deg,#fff1e9,#ffe0cf);border-radius:17px;padding:18px;margin-bottom:12px}
+    .dish-card{display:flex;gap:10px;padding:10px;border:1px solid var(--line);border-radius:15px;margin:9px 0;background:#fff}
+    .dish-card img,.dish-placeholder{width:76px;height:76px;object-fit:cover;border-radius:13px;background:#fff1e9;display:grid;place-items:center;font-size:30px;flex:none}
+    .dish-card h3{font-size:13px;margin:2px 0 5px}.dish-card p{font-size:10px;color:var(--muted);line-height:1.35}.dish-price{font-size:12px;color:var(--green);font-weight:900;margin-top:6px}
+    .profile-photo{width:68px;height:68px;border-radius:22px;object-fit:cover;background:#fff1eb}
+    .auth-switch{font-size:11px;text-align:center;color:var(--muted);margin-top:12px}
+    .auth-switch button{background:none;color:var(--orange);font-weight:800;cursor:pointer}
+    .message{line-height:1.4}
+    .user-chip{font-size:9px;color:var(--muted);margin-top:3px}
+    .modal-wrap .modal-head .sub{font-size:10px;color:var(--muted);margin-top:3px}
+    .dish-card{align-items:center}.dish-info{min-width:0;flex:1}.dish-add{background:var(--orange);color:#fff;border-radius:11px;padding:9px 11px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}.cart-open{width:100%;display:flex;justify-content:space-between;align-items:center;background:var(--orange);color:#fff;border-radius:14px;padding:13px 15px;margin-top:13px;font-weight:800;cursor:pointer}.cart-open small{font-weight:600;opacity:.9}.cart-line{padding:12px 0;border-bottom:1px solid var(--line)}.cart-line-top{display:flex;justify-content:space-between;gap:10px}.cart-line h3{font-size:13px}.cart-line .line-price{font-size:12px;color:var(--green);font-weight:900;white-space:nowrap}.cart-controls{display:flex;align-items:center;gap:9px;margin-top:9px}.qty-btn{width:29px;height:29px;border-radius:9px;background:#fff1eb;color:var(--orange);font-size:18px;font-weight:800;cursor:pointer}.qty{font-size:12px;font-weight:800;min-width:12px;text-align:center}.cart-note{width:100%;margin-top:9px;border:1px solid var(--line);border-radius:10px;padding:9px;font:11px inherit;resize:vertical;min-height:40px}.cart-total{display:flex;justify-content:space-between;font-size:14px;font-weight:900;margin:15px 0 5px}.cart-empty{text-align:center;color:var(--muted);font-size:12px;padding:25px 10px}
+
   </style>
 </head>
 <body>
   <main class="phone">
     <div class="status"><span>9:41</span><span>●●● ︱ 🔋</span></div>
     <header class="top">
-      <div class="topline"><div class="location"><small>ENTREGAR EM</small><strong>Minha localização <span>⌄</span></strong></div><div class="avatar">👤</div></div>
-      <div class="hello"><h1>O que vamos <span>pedir hoje?</span></h1><p>Encontre restaurantes e sabores perto de você.</p></div>
+      <div class="topline"><div class="location"><small>ENTREGAR EM</small><strong>Minha localização <span>⌄</span></strong></div><button class="avatar" id="avatarButton" aria-label="Abrir perfil">👤</button></div>
+      <div class="hello"><div class="user-chip" id="sessionLabel">Entre para cadastrar pratos e enviar fotos</div><h1>O que vamos <span>pedir hoje?</span></h1><p>Encontre restaurantes e sabores perto de você.</p></div>
       <div class="search"><label class="searchbox">🔎<input id="search" placeholder="Buscar restaurante..." /></label><button class="filter" id="sortButton">⇅</button></div>
     </header>
 
@@ -75,57 +96,221 @@
         </form>
       </section>
     </div>
+
+    <div class="modal-wrap" id="detailWrap">
+      <section class="modal">
+        <div class="handle"></div>
+        <div class="modal-head"><div><h2 id="detailTitle">Restaurante</h2><div class="sub" id="detailSubtitle"></div></div><button class="close" data-close="detailWrap">✕</button></div>
+        <div class="detail-cover"><div style="font-size:42px" id="detailEmoji">🍽️</div><div style="font-size:11px;color:var(--muted);margin-top:5px">Cardápio deste restaurante</div></div>
+        <div class="section-title" style="margin-top:5px"><h2>Pratos</h2><button id="newDishButton">＋ Adicionar prato</button></div>
+        <div id="dishList"><div class="loader">Carregando cardápio...</div></div>
+        <button class="cart-open" id="openCartButton" type="button"><span>🛒 Ver meu pedido</span><small id="cartCount">0 itens • R$ 0,00</small></button>
+      </section>
+    </div>
+
+    <div class="modal-wrap" id="cartWrap">
+      <section class="modal">
+        <div class="handle"></div><div class="modal-head"><div><h2>Meu pedido</h2><div class="sub" id="cartRestaurantName"></div></div><button class="close" data-close="cartWrap">✕</button></div>
+        <div id="cartItems"></div>
+        <div class="cart-total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:10px">Este pedido está apenas montado. Nenhuma compra ou pagamento será realizado.</div>
+        <button class="secondary-action" id="backToMenuButton" type="button">Continuar escolhendo</button>
+        <button class="secondary-action" id="clearCartButton" type="button">Limpar pedido</button>
+      </section>
+    </div>
+
+    <div class="modal-wrap" id="dishWrap">
+      <section class="modal">
+        <div class="handle"></div><div class="modal-head"><h2>Novo prato</h2><button class="close" data-close="dishWrap">✕</button></div>
+        <form id="dishForm">
+          <div class="field"><label>Nome do prato</label><input id="dishName" required placeholder="Ex.: Hambúrguer artesanal"></div>
+          <div class="field"><label>Descrição</label><textarea id="dishDescription" required placeholder="Descreva os ingredientes e o prato"></textarea></div>
+          <div class="field"><label>Categoria</label><input id="dishCategory" required placeholder="Ex.: Lanches"></div>
+          <div class="field"><label>Preço (R$)</label><input id="dishPrice" type="number" min="0.01" step="0.01" required placeholder="29.90"></div>
+          <div class="field"><label>Foto do prato (opcional)</label><input id="dishImage" type="file" accept="image/png,image/jpeg,image/webp"></div>
+          <button class="save" type="submit">Salvar prato</button><div class="message" id="dishMessage"></div>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-wrap" id="authWrap">
+      <section class="modal">
+        <div class="handle"></div><div class="modal-head"><h2 id="authHeading">Entrar no EasyFood</h2><button class="close" data-close="authWrap">✕</button></div>
+        <form id="authForm">
+          <div class="field" id="authNameField" style="display:none"><label>Nome</label><input id="authName" placeholder="Seu nome"></div>
+          <div class="field"><label>E-mail</label><input id="authEmail" type="email" required placeholder="voce@email.com"></div>
+          <div class="field"><label>Senha</label><input id="authPassword" type="password" minlength="6" required placeholder="Mínimo de 6 caracteres"></div>
+          <button class="save" id="authSubmit" type="submit">Entrar</button><div class="message" id="authMessage"></div>
+        </form>
+        <div class="auth-switch"><span id="authSwitchText">Ainda não tem conta?</span> <button id="authSwitch" type="button">Criar conta</button></div>
+      </section>
+    </div>
+
+    <div class="modal-wrap" id="profileWrap">
+      <section class="modal">
+        <div class="handle"></div><div class="modal-head"><h2>Meu perfil</h2><button class="close" data-close="profileWrap">✕</button></div>
+        <div style="display:flex;align-items:center;gap:13px;margin:10px 0 16px">
+          <img id="profileImage" class="profile-photo" alt="Foto do perfil">
+          <div><strong id="profileName">Usuário</strong><div class="sub" id="profileEmail"></div></div>
+        </div>
+        <form id="avatarForm">
+          <div class="field"><label>Alterar foto de perfil</label><input id="avatarFile" type="file" accept="image/png,image/jpeg,image/webp" required></div>
+          <button class="save" type="submit">Enviar foto</button><div class="message" id="avatarMessage"></div>
+        </form>
+        <button class="secondary-action" id="logoutButton" type="button">Sair da conta</button>
+      </section>
+    </div>
+
   </main>
 <script>
-  const API='/restaurants';
+  const API='';
   const list=document.getElementById('restaurantList');
   const search=document.getElementById('search');
   const order=document.getElementById('order');
   const modal=document.getElementById('modalWrap');
   const emoji={Burger:'🍔',Pizza:'🍕',Sushi:'🍣','Saudável':'🥗',Japonesa:'🍱',Italiana:'🍝',Brasileira:'🍛'};
-  let restaurants=[], selected='Todos', onlyFavorites=false;
+  let restaurants=[], selected='Todos', onlyFavorites=false, selectedRestaurant=null;
+  let cartItems=JSON.parse(localStorage.getItem('easyfood-cart')||'[]'), cartRestaurantId=Number(localStorage.getItem('easyfood-cart-restaurant')||0)||null;
+  let token=localStorage.getItem('easyfood-token')||'', currentUser=null, authMode='login';
   const favorites=new Set(JSON.parse(localStorage.getItem('easyfood-favorites')||'[]'));
   const saveFavs=()=>localStorage.setItem('easyfood-favorites',JSON.stringify([...favorites]));
-
+  const byId=id=>document.getElementById(id);
+  const show=id=>byId(id).classList.add('open');
+  const hide=id=>byId(id).classList.remove('open');
+  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>hide(b.dataset.close)));
+  document.querySelectorAll('.modal-wrap').forEach(w=>w.addEventListener('click',e=>{if(e.target===w)hide(w.id)}));
+  function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+  function money(v){return Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+  async function api(url,options={}){
+    const headers={...(options.headers||{})};
+    if(token)headers.Authorization='Bearer '+token;
+    const response=await fetch(API+url,{...options,headers});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.error||'Não foi possível concluir a operação.');
+    return data;
+  }
   async function load(){
     list.innerHTML='<div class="loader"><div class="spin"></div>Carregando restaurantes...</div>';
-    try{const r=await fetch(API); if(!r.ok)throw new Error(); restaurants=await r.json(); render();}
-    catch(e){list.innerHTML='<div class="error">⚠️ Não foi possível conectar à API.<br>Inicie o projeto com <b>npm start</b>.</div>'}
+    try{const r=await api('/restaurants');restaurants=r;render()}
+    catch(e){list.innerHTML='<div class="error">⚠️ Não foi possível conectar à API.<br>Inicie com <b>npm run dev</b>.</div>'}
   }
   function render(){
-    let data=[...restaurants];
-    const term=search.value.trim().toLowerCase();
-    if(selected!=='Todos') data=data.filter(r=>r.category===selected);
-    if(term) data=data.filter(r=>r.name.toLowerCase().includes(term));
-    if(onlyFavorites) data=data.filter(r=>favorites.has(r.id));
+    let data=[...restaurants],term=search.value.trim().toLowerCase();
+    if(selected!=='Todos')data=data.filter(r=>r.category===selected);
+    if(term)data=data.filter(r=>r.name.toLowerCase().includes(term));
+    if(onlyFavorites)data=data.filter(r=>favorites.has(r.id));
     data.sort((a,b)=>order.value==='asc'?a.rating-b.rating:b.rating-a.rating);
     if(!data.length){list.innerHTML='<div class="empty">🍽️<br><br>Nenhum restaurante encontrado.</div>';return}
-    list.innerHTML=data.map((r,i)=>`<article class="restaurant">
+    list.innerHTML=data.map(r=>`<article class="restaurant" data-restaurant-id="${r.id}">
       <div class="foodpic">${emoji[r.category]||'🍴'}</div>
-      <div class="info"><h3>${escapeHtml(r.name)}</h3><div class="meta">${escapeHtml(r.category)} • ${20+(r.id%3)*5}-${30+(r.id%3)*5} min</div><div class="tags"><span class="rating">★ ${Number(r.rating).toFixed(1)}</span><span>•</span><span class="delivery">Entrega R$ ${(3.5+(r.id%4)*1.25).toFixed(2).replace('.',',')}</span></div></div>
-      <button class="heart ${favorites.has(r.id)?'on':''}" onclick="toggleFav(${r.id})">${favorites.has(r.id)?'♥':'♡'}</button>
+      <div class="info"><h3>${escapeHtml(r.name)}</h3><div class="meta">${escapeHtml(r.category)} • ${20+(r.id%3)*5}-${30+(r.id%3)*5} min</div><div class="tags"><span class="rating">★ ${Number(r.rating).toFixed(1)}</span><span>•</span><span class="delivery">Entrega R$ ${(3.5+(r.id%4)*1.25).toFixed(2).replace('.',',')}</span></div><div class="user-chip">Toque para ver o cardápio</div></div>
+      <button class="heart ${favorites.has(r.id)?'on':''}" data-fav-id="${r.id}">${favorites.has(r.id)?'♥':'♡'}</button>
     </article>`).join('');
+    document.querySelectorAll('[data-restaurant-id]').forEach(card=>card.addEventListener('click',()=>openRestaurant(Number(card.dataset.restaurantId))));
+    document.querySelectorAll('[data-fav-id]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();toggleFav(Number(btn.dataset.favId))}));
   }
-  function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   window.toggleFav=id=>{favorites.has(id)?favorites.delete(id):favorites.add(id);saveFavs();render()};
   document.querySelectorAll('.cat').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));btn.classList.add('active');selected=btn.dataset.cat;onlyFavorites=false;setNav('homeBtn');render()});
-  search.addEventListener('input',render); order.addEventListener('change',render);
-  document.getElementById('sortButton').onclick=()=>{order.value=order.value==='desc'?'asc':'desc';render()};
-  document.getElementById('allCats').onclick=()=>{selected='Todos';document.querySelectorAll('.cat').forEach(x=>x.classList.toggle('active',x.dataset.cat==='Todos'));render()};
-  document.getElementById('openModal').onclick=()=>modal.classList.add('open');
-  document.getElementById('closeModal').onclick=()=>modal.classList.remove('open');
-  modal.onclick=e=>{if(e.target===modal)modal.classList.remove('open')};
-  function setNav(id){document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active')}
-  document.getElementById('homeBtn').onclick=()=>{onlyFavorites=false;search.value='';setNav('homeBtn');render()};
-  document.getElementById('searchBtn').onclick=()=>{onlyFavorites=false;setNav('searchBtn');search.focus();document.querySelector('.top').scrollIntoView({behavior:'smooth'})};
-  document.getElementById('favBtn').onclick=()=>{onlyFavorites=true;setNav('favBtn');render()};
-  document.getElementById('profileBtn').onclick=()=>{setNav('profileBtn');alert('Perfil demonstrativo do EasyFood.')};
-  document.getElementById('restaurantForm').onsubmit=async e=>{
-    e.preventDefault(); const msg=document.getElementById('message'); msg.className='message';msg.textContent='Salvando...';
-    const payload={name:document.getElementById('name').value.trim(),category:document.getElementById('category').value,rating:Number(document.getElementById('rating').value)};
-    try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const body=await r.json();if(!r.ok)throw new Error(body.error||'Erro');restaurants.push(body);msg.className='message ok';msg.textContent='✓ Restaurante cadastrado!';e.target.reset();render();setTimeout(()=>{modal.classList.remove('open');msg.textContent=''},900)}catch(err){msg.className='message bad';msg.textContent=err.message}
+  search.addEventListener('input',render);order.addEventListener('change',render);
+  byId('sortButton').onclick=()=>{order.value=order.value==='desc'?'asc':'desc';render()};
+  byId('allCats').onclick=()=>{selected='Todos';document.querySelectorAll('.cat').forEach(x=>x.classList.toggle('active',x.dataset.cat==='Todos'));render()};
+  byId('openModal').onclick=()=>show('modalWrap');
+  byId('closeModal').onclick=()=>hide('modalWrap');
+  function setNav(id){document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));const el=byId(id);if(el)el.classList.add('active')}
+  byId('homeBtn').onclick=()=>{onlyFavorites=false;search.value='';setNav('homeBtn');render()};
+  byId('searchBtn').onclick=()=>{onlyFavorites=false;setNav('searchBtn');search.focus();byId('homeView').scrollTo({top:0,behavior:'smooth'})};
+  byId('favBtn').onclick=()=>{onlyFavorites=true;setNav('favBtn');render()};
+  function requireAuth(){if(!token){configureAuth('login');show('authWrap');return false}return true}
+  function configureAuth(mode){authMode=mode;byId('authHeading').textContent=mode==='login'?'Entrar no EasyFood':'Criar conta';byId('authSubmit').textContent=mode==='login'?'Entrar':'Cadastrar';byId('authNameField').style.display=mode==='register'?'block':'none';byId('authName').required=mode==='register';byId('authSwitchText').textContent=mode==='login'?'Ainda não tem conta?':'Já tem uma conta?';byId('authSwitch').textContent=mode==='login'?'Criar conta':'Entrar';byId('authMessage').textContent=''}
+  byId('authSwitch').onclick=()=>configureAuth(authMode==='login'?'register':'login');
+  byId('authForm').onsubmit=async e=>{
+    e.preventDefault();const msg=byId('authMessage');msg.className='message';msg.textContent='Aguarde...';
+    try{
+      if(authMode==='register')await api('/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:byId('authName').value.trim(),email:byId('authEmail').value.trim(),password:byId('authPassword').value})});
+      const result=await api('/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:byId('authEmail').value.trim(),password:byId('authPassword').value})});
+      token=result.token;localStorage.setItem('easyfood-token',token);currentUser=result.user;updateSession();hide('authWrap');e.target.reset();
+    }catch(err){msg.className='message bad';msg.textContent=err.message}
   };
-  load();
+  function updateSession(){
+    const avatar=byId('avatarButton');
+    if(currentUser){byId('sessionLabel').textContent='Olá, '+currentUser.name+' • toque na foto para abrir seu perfil';avatar.innerHTML=currentUser.avatar?`<img src="${escapeHtml(currentUser.avatar)}" style="width:38px;height:38px;object-fit:cover;border-radius:14px">`:'👤';}
+    else{byId('sessionLabel').textContent='Entre para cadastrar pratos e enviar fotos';avatar.textContent='👤'}
+  }
+  byId('avatarButton').onclick=async()=>{
+    if(!requireAuth())return;
+    try{currentUser=await api('/auth/me');byId('profileName').textContent=currentUser.name;byId('profileEmail').textContent=currentUser.email;byId('profileImage').src=currentUser.avatar||'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70"><rect width="100%" height="100%" rx="20" fill="#fff1eb"/><text x="50%" y="60%" text-anchor="middle" font-size="35">👤</text></svg>');show('profileWrap')}
+    catch(e){alert(e.message)}
+  };
+  byId('profileBtn').onclick=()=>{setNav('profileBtn');if(token)byId('avatarButton').click();else{configureAuth('login');show('authWrap')}};
+  byId('logoutButton').onclick=()=>{token='';currentUser=null;localStorage.removeItem('easyfood-token');updateSession();hide('profileWrap');setNav('homeBtn')};
+  byId('avatarForm').onsubmit=async e=>{
+    e.preventDefault();const file=byId('avatarFile').files[0],msg=byId('avatarMessage');if(!file)return;
+    msg.className='message';msg.textContent='Enviando foto...';
+    try{const fd=new FormData();fd.append('avatar',file);const result=await api('/users/me/avatar',{method:'POST',body:fd});currentUser.avatar=result.avatar;byId('profileImage').src=result.avatar;updateSession();msg.className='message ok';msg.textContent='✓ Foto de perfil atualizada!';e.target.reset()}
+    catch(err){msg.className='message bad';msg.textContent=err.message}
+  };
+  // Novo restaurante continua com a mesma folha/modal e aparência mobile original.
+  byId('restaurantForm').onsubmit=async e=>{
+    e.preventDefault();const msg=byId('message');msg.className='message';msg.textContent='Salvando...';
+    const payload={name:byId('name').value.trim(),category:byId('category').value,rating:Number(byId('rating').value)};
+    try{const body=await api('/restaurants',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});restaurants.push(body);msg.className='message ok';msg.textContent='✓ Restaurante cadastrado!';e.target.reset();render();setTimeout(()=>{hide('modalWrap');msg.textContent=''},800)}
+    catch(err){msg.className='message bad';msg.textContent=err.message}
+  };
+  async function openRestaurant(id){
+    if(cartItems.length && cartRestaurantId!==id){
+      const oldName=restaurants.find(r=>r.id===cartRestaurantId)?.name||'outro restaurante';
+      if(!confirm('Seu pedido atual é do '+oldName+'. Para escolher outro restaurante, será necessário limpar o pedido. Deseja continuar?'))return;
+      cartItems=[];cartRestaurantId=null;saveCart();
+    }
+    selectedRestaurant=restaurants.find(r=>r.id===id);if(!selectedRestaurant)return;
+    byId('detailTitle').textContent=selectedRestaurant.name;byId('detailSubtitle').textContent=selectedRestaurant.category+' • ★ '+Number(selectedRestaurant.rating).toFixed(1);byId('detailEmoji').textContent=emoji[selectedRestaurant.category]||'🍽️';
+    byId('dishList').innerHTML='<div class="loader"><div class="spin"></div>Carregando pratos...</div>';show('detailWrap');
+    try{const dishes=await api('/dishes?restaurantId='+id);renderDishes(dishes)}
+    catch(e){byId('dishList').innerHTML='<div class="error">'+escapeHtml(e.message)+'</div>'}
+  }
+  function saveCart(){localStorage.setItem('easyfood-cart',JSON.stringify(cartItems));if(cartRestaurantId)localStorage.setItem('easyfood-cart-restaurant',String(cartRestaurantId));else localStorage.removeItem('easyfood-cart-restaurant');updateCartSummary()}
+  function cartQuantity(){return cartItems.reduce((sum,item)=>sum+item.quantity,0)}
+  function cartSubtotal(){return cartItems.reduce((sum,item)=>sum+item.price*item.quantity,0)}
+  function updateCartSummary(){byId('cartCount').textContent=cartQuantity()+' '+(cartQuantity()===1?'item':'itens')+' • '+money(cartSubtotal())}
+  function addToCart(dish){
+    if(!selectedRestaurant)return;
+    if(cartItems.length && cartRestaurantId!==selectedRestaurant.id){alert('O carrinho só pode ter pratos de um restaurante por vez.');return}
+    cartRestaurantId=selectedRestaurant.id;
+    const existing=cartItems.find(item=>item.id===dish.id);
+    if(existing)existing.quantity+=1;else cartItems.push({id:dish.id,name:dish.name,price:Number(dish.price),quantity:1,note:''});
+    saveCart();
+  }
+  function renderDishes(dishes){
+    byId('dishList').innerHTML=dishes.length?dishes.map(d=>`<article class="dish-card">${d.image?`<img src="${escapeHtml(d.image)}" alt="${escapeHtml(d.name)}">`:'<div class="dish-placeholder">🍽️</div>'}<div class="dish-info"><h3>${escapeHtml(d.name)}</h3><p>${escapeHtml(d.description)}</p><p>${escapeHtml(d.category)}</p><div class="dish-price">${money(d.price)}</div></div><button class="dish-add" data-add-dish="${d.id}">Adicionar</button></article>`).join(''):'<div class="empty">🍽️<br><br>Este restaurante ainda não tem pratos cadastrados.</div>';
+    dishes.forEach(d=>{const button=document.querySelector(`[data-add-dish="${d.id}"]`);if(button)button.onclick=()=>{addToCart(d);button.textContent='✓ Adicionado';setTimeout(()=>{if(button.isConnected)button.textContent='Adicionar'},900)}});
+    updateCartSummary();
+  }
+  function renderCart(){
+    byId('cartRestaurantName').textContent=restaurants.find(r=>r.id===cartRestaurantId)?.name||'';
+    if(!cartItems.length){byId('cartItems').innerHTML='<div class="cart-empty">🛒<br><br>Seu pedido está vazio.<br>Volte ao cardápio e adicione um prato.</div>'}
+    else byId('cartItems').innerHTML=cartItems.map(item=>`<div class="cart-line"><div class="cart-line-top"><h3>${escapeHtml(item.name)}</h3><span class="line-price">${money(item.price*item.quantity)}</span></div><div class="cart-controls"><button class="qty-btn" data-minus="${item.id}" type="button">−</button><span class="qty">${item.quantity}</span><button class="qty-btn" data-plus="${item.id}" type="button">+</button><span style="font-size:10px;color:var(--muted)">${money(item.price)} cada</span></div><textarea class="cart-note" data-note="${item.id}" placeholder="Observações deste prato (opcional)">${escapeHtml(item.note||'')}</textarea></div>`).join('');
+    byId('cartTotal').textContent=money(cartSubtotal());
+    document.querySelectorAll('[data-minus]').forEach(btn=>btn.onclick=()=>changeQuantity(Number(btn.dataset.minus),-1));
+    document.querySelectorAll('[data-plus]').forEach(btn=>btn.onclick=()=>changeQuantity(Number(btn.dataset.plus),1));
+    document.querySelectorAll('[data-note]').forEach(input=>input.oninput=()=>{const item=cartItems.find(x=>x.id===Number(input.dataset.note));if(item){item.note=input.value;saveCart()}});
+  }
+  function changeQuantity(id,delta){const item=cartItems.find(x=>x.id===id);if(!item)return;item.quantity+=delta;if(item.quantity<=0)cartItems=cartItems.filter(x=>x.id!==id);if(!cartItems.length)cartRestaurantId=null;saveCart();renderCart()}
+  byId('openCartButton').onclick=()=>{renderCart();hide('detailWrap');show('cartWrap')};
+  byId('backToMenuButton').onclick=()=>{hide('cartWrap');if(selectedRestaurant)show('detailWrap')};
+  byId('clearCartButton').onclick=()=>{if(!cartItems.length)return;if(confirm('Deseja remover todos os pratos do pedido?')){cartItems=[];cartRestaurantId=null;saveCart();renderCart()}};
+  byId('newDishButton').onclick=()=>{if(!requireAuth())return;hide('detailWrap');byId('dishForm').reset();byId('dishMessage').textContent='';show('dishWrap')};
+  byId('dishForm').onsubmit=async e=>{
+    e.preventDefault();const msg=byId('dishMessage');msg.className='message';msg.textContent='Salvando prato...';
+    try{
+      const result=await api('/dishes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:byId('dishName').value.trim(),description:byId('dishDescription').value.trim(),category:byId('dishCategory').value.trim(),price:Number(byId('dishPrice').value),restaurantId:selectedRestaurant.id})});
+      const file=byId('dishImage').files[0];
+      if(file){const fd=new FormData();fd.append('image',file);await api('/dishes/'+result.dish.id+'/image',{method:'POST',body:fd})}
+      msg.className='message ok';msg.textContent='✓ Prato cadastrado!';e.target.reset();
+      setTimeout(()=>{hide('dishWrap');openRestaurant(selectedRestaurant.id)},700);
+    }catch(err){msg.className='message bad';msg.textContent=err.message}
+  };
+  async function restoreSession(){if(!token){updateSession();return}try{currentUser=await api('/auth/me')}catch{token='';localStorage.removeItem('easyfood-token')}updateSession()}
+  restoreSession();load();updateCartSummary();
 </script>
 </body>
 </html>
